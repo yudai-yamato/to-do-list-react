@@ -11,19 +11,33 @@ function App() {
     setTask('');
   };
 
+  const handleDelete = (deleteIndex) => {
+    const newTodos = todos.filter((_, index) => index !== deleteIndex);
+    setTodos(newTodos);
+  };
+
   return (
     <div className="app">
       <h1>To-Do List</h1>
       <input
         value={task}
         onChange={(e) => setTask(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleAdd();
+          }
+        }
+        }
         placeholder="タスクを入力"
       />
       <button onClick={handleAdd}>追加</button>
 
       <ul>
         {todos.map((todo, index) => (
-          <li key={index}>{todo}</li>
+          <li key={index}>
+            {todo}
+            <button onClick={() => handleDelete(index)}>削除</button>
+          </li>
         ))}
       </ul>
     </div>
