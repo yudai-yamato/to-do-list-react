@@ -5,19 +5,20 @@ function App() {
   const [task, setTask] = useState('');
   const [todos, setTodos] = useState([]);
   const [editingId, setEditingId] = useState(null);
+  const [deadline, setDeadline] = useState("");
 
   const handleAddOrUpdate = () => {
     if (task.trim() === '') return;
 
     if (editingId !== null) {
       const updatedTodos = todos.map((todo) =>
-        todo.id === editingId ? { ...todo, text: task } : todo
+        todo.id === editingId ? { ...todo, text: task, deadline:deadline} : todo
       );
       setTodos(updatedTodos);
       setEditingId(null);
     }
     else {
-      setTodos([...todos, { id: Date.now(), text: task }]);
+      setTodos([...todos, { id: Date.now(), text: task, deadline:deadline }]);
 
     }
     setTask('');
@@ -26,8 +27,9 @@ function App() {
 
   const handleEdit = (id) => {
     const targetTodo = todos.find((todo) => todo.id === id);
-    if (targetTodo){
+    if (targetTodo) {
       setTask(targetTodo.text);
+      setDeadline(targetTodo.deadline);
       setEditingId(id);
     }
   };
@@ -52,18 +54,24 @@ function App() {
           if (e.key === 'Enter') {
             handleAddOrUpdate();
           }
-        }
-        }
-        placeholder="タスクを入力"
+        }}
+        placeholder="タスクを入力" />
+
+      <input type="date"
+      value={deadline}
+      onChange={(e)=>setDeadline(e.target.value)}
       />
+
       <button onClick={handleAddOrUpdate}>
         {editingId !== null ? '保存' : '追加'}
       </button>
-
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            {todo.text}
+            <div>{todo.text}</div>
+            <div>{todo.deadline}</div>
+            
+            
             <button onClick={() => handleEdit(todo.id)}>編集</button>
             <button onClick={() => handleDelete(todo.id)}>削除</button>
           </li>
@@ -72,6 +80,6 @@ function App() {
     </div>
   );
 }
-
 export default App;
+
 
