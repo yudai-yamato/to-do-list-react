@@ -12,18 +12,19 @@ function App() {
 
     if (editingId !== null) {
       const updatedTodos = todos.map((todo) =>
-        todo.id === editingId ? { ...todo, text: task, deadline:deadline} : todo
+        todo.id === editingId ? { ...todo, text: task, deadline: deadline } : todo
       );
       setTodos(updatedTodos);
       setEditingId(null);
     }
     else {
-      setTodos([...todos, { id: Date.now(), text: task, deadline:deadline }]);
+      setTodos([...todos, { id: Date.now(), text: task, deadline: deadline, done: false }]);
 
     }
     setTask('');
-
+    setDeadline('');
   };
+
 
   const handleEdit = (id) => {
     const targetTodo = todos.find((todo) => todo.id === id);
@@ -41,7 +42,14 @@ function App() {
     if (editingId === id) {
       setEditingId(null);
       setTask('');
+      setDeadline('');
     };
+  };
+
+  const handleToggleDone = (id) => {
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, done: !todo.done } : todo);
+    setTodos(updatedTodos);
   };
 
   return (
@@ -58,8 +66,8 @@ function App() {
         placeholder="タスクを入力" />
 
       <input type="date"
-      value={deadline}
-      onChange={(e)=>setDeadline(e.target.value)}
+        value={deadline}
+        onChange={(e) => setDeadline(e.target.value)}
       />
 
       <button onClick={handleAddOrUpdate}>
@@ -68,10 +76,15 @@ function App() {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            <div>{todo.text}</div>
-            <div>{todo.deadline}</div>
-            
-            
+            <input type="checkbox"
+              checked={todo.done}
+              onChange={() => handleToggleDone(todo.id)}
+            />
+            <span style={{ textDecoration: todo.done ? 'line-through' : 'none', }}>
+              {todo.text} (期限:{todo.deadline})
+            </span>
+
+
             <button onClick={() => handleEdit(todo.id)}>編集</button>
             <button onClick={() => handleDelete(todo.id)}>削除</button>
           </li>
