@@ -15,6 +15,10 @@ Figmaで設計したシンプルなToDoリストを、ReactとTypeScript、Mater
 - Material UI
 - Figma（UI設計）
 
+## 画面イメージ
+![ToDoリストのスクリーンショット](./public/screenshot.png)
+
+
 ## 起動方法
 ```bash
 npm install
