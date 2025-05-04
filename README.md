@@ -23,3 +23,7 @@ Figmaで設計したシンプルなToDoリストを、ReactとTypeScript、Mater
 ```bash
 npm install
 npm run dev
+
+## デプロイURL（公開版）
+https://to-do-list-react-five-drab.vercel.app/
+
